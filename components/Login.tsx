@@ -10,7 +10,7 @@ export default function Login({}: Props): ReactElement {
       .signInWithPopup(new firebase.auth.GithubAuthProvider());
 
     console.log({ ...userCredentials.user });
-
+    
     firebase.firestore().collection("users").doc(userCredentials.user.uid).set({
       uid: userCredentials.user.uid,
       email: userCredentials.user.email,

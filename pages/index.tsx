@@ -7,8 +7,8 @@ import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import usePremiumStatus from "../stripe/usePremiumStatus";
 
 export default function Home() {
-  const [user, userLoading] = useAuthState(firebase.auth());
-  const userIsPremium = usePremiumStatus(user);
+  const [user, userLoading] = useAuthState(firebase.auth() as any);
+  const userIsPremium = usePremiumStatus(user as any);
 
   return (
     <div className={styles.container}>
