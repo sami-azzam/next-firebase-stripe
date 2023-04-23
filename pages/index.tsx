@@ -28,6 +28,7 @@ export default function Home() {
             
           ) : (
             <h2>Have a cookie 🍪 {userIsPremium == "starter" ? "Starter" : "Pro"} Plan customer!</h2>
+
           )}
         </div>
       )}
