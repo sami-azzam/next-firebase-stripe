@@ -4,11 +4,11 @@ import styles from "../styles/Home.module.css";
 import firebase from "../firebase/firebaseClient";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createCheckoutSession } from "../stripe/createCheckoutSession";
-import usePremiumStatus from "../stripe/usePremiumStatus";
+import usePlanStatus from "../stripe/usePlanStatus";
 
 export default function Home() {
   const [user, userLoading] = useAuthState(firebase.auth() as any);
-  const userIsPremium = usePremiumStatus(user as any);
+  const userPlan = usePlanStatus(user as any);
 
   return (
     <div className={styles.container}>
@@ -17,7 +17,7 @@ export default function Home() {
       {user && !userLoading && (
         <div>
           <h1>Hello, {user.displayName}</h1>
-          {userIsPremium == "basic" ? (<>
+          {userPlan == "basic" ? (<>
             <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
               Subscribe to Starter!
             </button>
@@ -27,7 +27,7 @@ export default function Home() {
             </>
             
           ) : (
-            <h2>Have a cookie 🍪 {userIsPremium == "starter" ? "Starter" : "Pro"} Plan customer!</h2>
+            <h2>Have a cookie 🍪 {userPlan == "starter" ? "Starter" : "Pro"} Plan customer!</h2>
 
           )}
         </div>
