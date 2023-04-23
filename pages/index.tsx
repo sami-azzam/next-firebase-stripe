@@ -21,7 +21,7 @@ export default function Home() {
             <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
               Subscribe to Starter!
             </button>
-            <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
+            <button onClick={() => createCheckoutSession(user.uid, "price_1MzrADJKvd8jZpiVnOnbZa5t")}>
               Subscribe to Pro!
             </button>
             </>
