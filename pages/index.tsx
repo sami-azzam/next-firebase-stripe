@@ -17,12 +17,17 @@ export default function Home() {
       {user && !userLoading && (
         <div>
           <h1>Hello, {user.displayName}</h1>
-          {!userIsPremium ? (
-            <button onClick={() => createCheckoutSession(user.uid)}>
-              Upgrade to premium!
+          {userIsPremium == "basic" ? (<>
+            <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
+              Subscribe to Starter!
             </button>
+            <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
+              Subscribe to Pro!
+            </button>
+            </>
+            
           ) : (
-            <h2>Have a cookie 🍪 Premium customer!</h2>
+            <h2>Have a cookie 🍪 {userIsPremium == "starter" ? "Starter" : "Pro"} Plan customer!</h2>
           )}
         </div>
       )}

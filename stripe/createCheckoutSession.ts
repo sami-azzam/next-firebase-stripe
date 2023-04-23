@@ -1,7 +1,7 @@
 import firebase from "../firebase/firebaseClient";
 import initializeStripe from "./initializeStripe";
 
-export async function createCheckoutSession(uid: string) {
+export async function createCheckoutSession(uid: string, plan_price_id: string) { //TODO: plan_price_id
   const firestore = firebase.firestore();
 
   // Create a new checkout session in the subollection inside this users document
@@ -10,7 +10,7 @@ export async function createCheckoutSession(uid: string) {
     .doc(uid)
     .collection("checkout_sessions")
     .add({
-      price: "price_XXXXX",
+      price: plan_price_id,
       success_url: window.location.origin,
       cancel_url: window.location.origin,
     });
