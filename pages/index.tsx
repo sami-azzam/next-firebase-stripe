@@ -5,10 +5,18 @@ import firebase from "../firebase/firebaseClient";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import usePlanStatus from "../stripe/usePlanStatus";
+import { createCustomerPortalSession } from "../stripe/createCustomerPortalSession";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [user, userLoading] = useAuthState(firebase.auth() as any);
+  const router = useRouter();
   const userPlan = usePlanStatus(user as any);
+
+  const onManage = async () => {
+    const session = await createCustomerPortalSession();
+    router.push(session.url);
+  };
 
   return (
     <div className={styles.container}>
@@ -17,18 +25,38 @@ export default function Home() {
       {user && !userLoading && (
         <div>
           <h1>Hello, {user.displayName}</h1>
-          {userPlan == "basic" ? (<>
-            <button onClick={() => createCheckoutSession(user.uid, "price_1Mzr8fJKvd8jZpiVj21T4tyz")}>
-              Subscribe to Starter!
-            </button>
-            <button onClick={() => createCheckoutSession(user.uid, "price_1MzrADJKvd8jZpiVnOnbZa5t")}>
-              Subscribe to Pro!
-            </button>
+          {userPlan == "basic" ? (
+            <>
+              <button
+                onClick={() =>
+                  createCheckoutSession(
+                    user.uid,
+                    "price_1Mzr8fJKvd8jZpiVj21T4tyz"
+                  )
+                }
+              >
+                Subscribe to Starter!
+              </button>
+              <button
+                onClick={() =>
+                  createCheckoutSession(
+                    user.uid,
+                    "price_1MzrADJKvd8jZpiVnOnbZa5t"
+                  )
+                }
+              >
+                Subscribe to Pro!
+              </button>
             </>
-            
           ) : (
-            <h2>Have a cookie 🍪 {userPlan == "starter" ? "Starter" : "Pro"} Plan customer!</h2>
-
+            <>
+              <h2>
+                Have a cookie 🍪 {userPlan == "starter" ? "Starter" : "Pro"}{" "}
+                Plan customer!
+              </h2>
+              <button onClick={() => firebase.auth().signOut()}>Logout</button>
+              <button onClick={onManage}>Manage Plan</button>
+            </>
           )}
         </div>
       )}
