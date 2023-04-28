@@ -10,6 +10,5 @@ export async function createCustomerPortalSession(
   const { data } = await functionRef({
     return_url,
   });
-  // window.location.assign(data.url as string);
   return data;
 }

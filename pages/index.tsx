@@ -7,6 +7,7 @@ import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import usePlanStatus from "../stripe/usePlanStatus";
 import { createCustomerPortalSession } from "../stripe/createCustomerPortalSession";
 import { useRouter } from "next/router";
+import planType from "../stripe/planTypes";
 
 export default function Home() {
   const [user, userLoading] = useAuthState(firebase.auth() as any);
@@ -25,7 +26,8 @@ export default function Home() {
       {user && !userLoading && (
         <div>
           <h1>Hello, {user.displayName}</h1>
-          {userPlan == "basic" ? (
+          {userPlan == planType.logged_out ||
+          userPlan == planType.non_member ? (
             <>
               <button
                 onClick={() =>
@@ -51,8 +53,9 @@ export default function Home() {
           ) : (
             <>
               <h2>
-                Have a cookie 🍪 {userPlan == "starter" ? "Starter" : "Pro"}{" "}
-                Plan customer!
+                Have a cookie 🍪{" "}
+                {userPlan == planType.starter ? "Starter" : "Pro"} Plan
+                customer!
               </h2>
               <button onClick={() => firebase.auth().signOut()}>Logout</button>
               <button onClick={onManage}>Manage Plan</button>
